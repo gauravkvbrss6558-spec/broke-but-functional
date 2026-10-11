@@ -268,12 +268,14 @@ function TransactionForm({ title, transaction, onClose, onSubmit }: FormProps) {
         <div className="grid grid-cols-2 gap-2 p-1 bg-gray-50 dark:bg-navy-700 rounded-xl">
           <button
             onClick={() => setType('expense')}
+            aria-pressed={type === 'expense'}
             className={`py-2 text-sm font-semibold rounded-lg transition-all ${type === 'expense' ? 'bg-white dark:bg-navy-800 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500'}`}
           >
             Expense
           </button>
           <button
             onClick={() => setType('income')}
+            aria-pressed={type === 'income'}
             className={`py-2 text-sm font-semibold rounded-lg transition-all ${type === 'income' ? 'bg-white dark:bg-navy-800 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500'}`}
           >
             Income

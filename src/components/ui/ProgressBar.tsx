@@ -44,6 +44,11 @@ export function ProgressBar({
       )}
       <div
         className={`w-full ${sizeClasses[size]} rounded-full bg-gray-100 dark:bg-navy-700 overflow-hidden`}
+        role="progressbar"
+        aria-valuenow={Math.round(percent)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={label || undefined}
       >
         <div
           className={`h-full ${colorClasses[color]} rounded-full transition-all duration-500 ease-out`}

@@ -9,6 +9,8 @@ import type {
 } from '@/types';
 import { formatCurrency, uid, todayISO } from './format';
 
+// Days since the budget cycle started, clamped to the 30-day window.
+// Shared by computeMetrics and computeForecast so both agree on "today."
 function getDaysElapsed(startDate: string): number {
   const start = new Date(startDate);
   start.setHours(0, 0, 0, 0);
@@ -46,9 +48,14 @@ export function computeMetrics(state: FinanceState): FinanceMetrics {
 
   const committedAmount = unpaidCommitments + unpaidSubscriptions;
 
+  // Balance = starting budget + income - expenses.
+  // Savings contributions are NOT subtracted here — they stay in the user's
+  // balance but are tracked separately as progress toward goals.
   const currentBalance =
     state.startingBudget + totalIncome - totalExpenses;
 
+  // Spendable = what's left after ring-fencing unpaid obligations.
+  // This is the number the user can actually spend without missing a bill.
   const spendableBalance = currentBalance - committedAmount;
 
   const safeDailyAllowance = Math.max(0, spendableBalance / daysRemaining);
@@ -63,6 +70,8 @@ export function computeMetrics(state: FinanceState): FinanceMetrics {
       ? Math.min(100, (totalSavings / totalSavingsTarget) * 100)
       : 0;
 
+  // Month-end projection assumes no new transactions beyond today.
+  // Only unpaid commitments/subscriptions reduce the forward balance.
   const projectedEndBalance =
     currentBalance - committedAmount;
 
@@ -71,7 +80,8 @@ export function computeMetrics(state: FinanceState): FinanceMetrics {
     (totalExpenses / state.startingBudget) * 100
   );
 
-  // Health score calculation — transparent, weighted factors
+  // Health score (0-100): weighted sum of four factors.
+  // Factor weights are deliberately transparent and shown in the UI.
   let healthScore = 0;
 
   // Factor 1: Budget remaining (0-35 points)
@@ -213,6 +223,8 @@ export function computeForecast(state: FinanceState): ForecastPoint[] {
   const daysElapsed = getDaysElapsed(state.startDate);
   const points: ForecastPoint[] = [];
 
+  // Reuse the same balance formula as computeMetrics so forecast and
+  // dashboard always agree on the starting point.
   const totalIncome = state.transactions
     .filter((t) => t.type === 'income')
     .reduce((sum, t) => sum + t.amount, 0);
@@ -224,7 +236,8 @@ export function computeForecast(state: FinanceState): ForecastPoint[] {
   const baseBalance =
     state.startingBudget + totalIncome - totalExpenses;
 
-  // Build a map of day -> commitment/subscription amounts
+  // Build a map of day -> total deduction amount + label for upcoming
+  // commitments and subscriptions that fall after today.
   const futureDeductions: Record<number, { amount: number; label: string }> = {};
   for (const c of state.commitments) {
     if (!c.paid && c.dueDay > daysElapsed) {

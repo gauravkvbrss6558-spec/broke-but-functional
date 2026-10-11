@@ -90,7 +90,7 @@ export function Sidebar({ current, onNavigate, theme, onToggleTheme, onReset }: 
           <div className="absolute left-0 top-0 bottom-0 w-72 bg-white dark:bg-navy-900 border-r border-gray-100 dark:border-navy-700 flex flex-col animate-slide-up">
             <div className="flex items-center justify-between p-4 border-b border-gray-50 dark:border-navy-700">
               <span className="text-sm font-bold text-gray-900 dark:text-white">Navigation</span>
-              <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-navy-700">
+              <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-navy-700" aria-label="Close menu">
                 <X size={18} />
               </button>
             </div>

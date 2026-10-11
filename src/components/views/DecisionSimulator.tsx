@@ -56,7 +56,7 @@ export function DecisionSimulator({ state, onApplyDecision }: SimulatorProps) {
     return simulateDecision(state, decision);
   }, [state, decision]);
 
-  const validate = (): boolean => {
+  const validate = useCallback((): boolean => {
     setError('');
     if (isNaN(numericAmount) || amount.trim() === '') {
       setError('Please enter a valid amount.');
@@ -84,7 +84,7 @@ export function DecisionSimulator({ state, onApplyDecision }: SimulatorProps) {
       }
     }
     return true;
-  };
+  }, [numericAmount, amount, mode, savingsGoalId, state.savingsGoals]);
 
   const handleApply = useCallback(() => {
     if (!decision || !validate()) return;
@@ -95,7 +95,7 @@ export function DecisionSimulator({ state, onApplyDecision }: SimulatorProps) {
       setAmount('');
       setDescription('');
     }, 2500);
-  }, [decision]);
+  }, [decision, validate, onApplyDecision]);
 
   const handleCancel = useCallback(() => {
     setAmount('');
@@ -136,6 +136,7 @@ export function DecisionSimulator({ state, onApplyDecision }: SimulatorProps) {
               <div className="grid grid-cols-2 gap-2 p-1 bg-gray-50 dark:bg-navy-700 rounded-xl">
                 <button
                   onClick={() => { setMode('expense'); setError(''); }}
+                  aria-pressed={mode === 'expense'}
                   className={`py-2 text-sm font-semibold rounded-lg transition-all ${
                     mode === 'expense'
                       ? 'bg-white dark:bg-navy-800 text-gray-900 dark:text-white shadow-sm'
@@ -146,6 +147,7 @@ export function DecisionSimulator({ state, onApplyDecision }: SimulatorProps) {
                 </button>
                 <button
                   onClick={() => { setMode('savings'); setError(''); }}
+                  aria-pressed={mode === 'savings'}
                   className={`py-2 text-sm font-semibold rounded-lg transition-all ${
                     mode === 'savings'
                       ? 'bg-white dark:bg-navy-800 text-gray-900 dark:text-white shadow-sm'
