@@ -8,7 +8,7 @@ import type {
 } from '@/types';
 import { loadState, saveState, clearState } from '@/lib/storage';
 import { createSeedState, createEmptyState } from '@/lib/seed';
-import { uid, todayISO } from '@/lib/format';
+import { uid } from '@/lib/format';
 
 export function useFinanceState() {
   const [state, setState] = useState<FinanceState>(() => {

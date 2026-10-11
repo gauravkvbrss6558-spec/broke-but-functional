@@ -12,7 +12,7 @@ import {
   CircleDollarSign,
 } from 'lucide-react';
 import type { FinanceState, FinanceMetrics } from '@/types';
-import { computeMetrics, computeForecast } from '@/lib/calculations';
+import { computeForecast } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
@@ -431,7 +431,7 @@ function ForecastSparkline({ forecast, currentDay }: { forecast: { day: number; 
 
   const actualPoints = forecast
     .filter((f) => f.day <= currentDay)
-    .map((f, i) => {
+    .map((f) => {
       const idx = f.day - 1;
       const x = (idx / (forecast.length - 1)) * width;
       const y = height - ((f.balance - minBalance) / range) * height;
@@ -441,7 +441,7 @@ function ForecastSparkline({ forecast, currentDay }: { forecast: { day: number; 
 
   return (
     <div>
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-24" preserveAspectRatio="none">
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-24" preserveAspectRatio="none" role="img" aria-label="30-day balance forecast sparkline showing actual and projected balance">
         <defs>
           <linearGradient id="forecastGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />

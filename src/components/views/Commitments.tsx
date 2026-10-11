@@ -10,7 +10,6 @@ import {
   Receipt,
 } from 'lucide-react';
 import type { FinanceState, Commitment, Subscription, Category } from '@/types';
-import { CATEGORIES } from '@/types';
 import { formatCurrency } from '@/lib/format';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -60,7 +59,7 @@ export function Commitments({
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="p-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 mb-1">
             <Lock size={14} className="text-amber-500" /> Upcoming

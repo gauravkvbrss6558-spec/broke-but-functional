@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Plus,
   Trash2,
@@ -11,7 +11,7 @@ import {
 import type { FinanceState, SavingsGoal } from '@/types';
 import { formatCurrency } from '@/lib/format';
 import { computeMetrics } from '@/lib/calculations';
-import { Card, CardBody, CardHeader } from '@/components/ui/Card';
+import { Card, CardBody } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
@@ -30,7 +30,7 @@ export function SavingsGoals({ state, onAddGoal, onContribute, onDeleteGoal }: S
   const [showAdd, setShowAdd] = useState(false);
   const [contributeTo, setContributeTo] = useState<SavingsGoal | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const metrics = computeMetrics(state);
+  const metrics = useMemo(() => computeMetrics(state), [state]);
 
   return (
     <div className="space-y-5">
@@ -45,7 +45,7 @@ export function SavingsGoals({ state, onAddGoal, onContribute, onDeleteGoal }: S
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="p-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 mb-1">
             <PiggyBank size={14} className="text-emerald-500" /> Saved
@@ -272,7 +272,7 @@ function ContributeForm({ goal, onClose, onSubmit }: { goal: SavingsGoal; onClos
           error={error || undefined}
         />
         <p className="text-xs text-gray-400 dark:text-gray-500">
-          This contribution reduces your available balance but doesn't count as an expense — the money is set aside, not spent.
+          This contribution is tracked toward your savings goal. It doesn't count as an expense — the money stays in your balance.
         </p>
       </div>
     </Modal>

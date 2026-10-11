@@ -131,6 +131,8 @@ export function Forecast({ state }: ForecastProps) {
               preserveAspectRatio="xMidYMid meet"
               onMouseMove={handleMouseMove}
               onMouseLeave={() => setHoveredDay(null)}
+              role="img"
+              aria-label="30-day balance projection chart showing actual spending and projected future balance"
             >
               <defs>
                 <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
@@ -378,7 +380,7 @@ export function Forecast({ state }: ForecastProps) {
             <p>• Forecast deducts unpaid commitments and subscriptions on their due days.</p>
             <p>• No new transactions are assumed beyond what's already recorded.</p>
             <p>• Actual days reflect your real spending up to today; future days are projected.</p>
-            <p>• Savings contributions already made are reflected; future contributions are not assumed.</p>
+            <p>• Savings contributions are tracked separately and do not reduce your balance.</p>
           </div>
         </div>
       </div>

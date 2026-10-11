@@ -11,7 +11,7 @@ import {
 import type { FinanceState, Transaction, Category } from '@/types';
 import { CATEGORIES } from '@/types';
 import { formatCurrency, formatDate, todayISO } from '@/lib/format';
-import { Card, CardBody, CardHeader } from '@/components/ui/Card';
+import { Card, CardBody } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Input, CategorySelect, Select } from '@/components/ui/Input';
@@ -61,7 +61,7 @@ export function Transactions({ state, onAdd, onUpdate, onDelete }: TransactionsP
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="p-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 mb-1">
             <TrendingUp size={14} className="text-emerald-500" /> Income
@@ -94,6 +94,7 @@ export function Transactions({ state, onAdd, onUpdate, onDelete }: TransactionsP
             <button
               key={f}
               onClick={() => setTypeFilter(f)}
+              aria-pressed={typeFilter === f}
               className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all capitalize ${
                 typeFilter === f ? 'bg-white dark:bg-navy-800 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'
               }`}

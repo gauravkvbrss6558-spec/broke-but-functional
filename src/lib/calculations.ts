@@ -19,11 +19,6 @@ function getDaysElapsed(startDate: string): number {
   return Math.max(0, Math.min(30, diffDays));
 }
 
-function getDaysRemaining(startDate: string): number {
-  const elapsed = getDaysElapsed(startDate);
-  return Math.max(0, 30 - elapsed);
-}
-
 export function computeMetrics(state: FinanceState): FinanceMetrics {
   const daysElapsed = getDaysElapsed(state.startDate);
   const daysRemaining = Math.max(1, 30 - daysElapsed);
@@ -225,11 +220,6 @@ export function computeForecast(state: FinanceState): ForecastPoint[] {
   const totalExpenses = state.transactions
     .filter((t) => t.type === 'expense')
     .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalSavings = state.savingsGoals.reduce(
-    (sum, g) => sum + g.currentAmount,
-    0
-  );
 
   const baseBalance =
     state.startingBudget + totalIncome - totalExpenses;

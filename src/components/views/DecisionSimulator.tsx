@@ -6,16 +6,13 @@ import {
   AlertTriangle,
   TrendingDown,
   TrendingUp,
-  Target,
-  Calendar,
   Shield,
   ArrowRight,
   Sparkles,
   Info,
 } from 'lucide-react';
 import type { FinanceState, Category, SimDecision } from '@/types';
-import { CATEGORIES } from '@/types';
-import { simulateDecision, applyDecisionToState } from '@/lib/calculations';
+import { simulateDecision } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';

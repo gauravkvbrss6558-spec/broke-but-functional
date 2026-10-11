@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import type { InputHTMLAttributes, SelectHTMLAttributes } from 'react';
 import { CATEGORIES } from '@/types';
 import type { Category } from '@/types';
@@ -13,16 +14,18 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export function Input({ label, error, className = '', ...props }: InputProps) {
+export function Input({ label, error, className = '', id, ...props }: InputProps) {
+  const autoId = useId();
+  const inputId = id || autoId;
   return (
     <div>
       {label && (
-        <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">
+        <label htmlFor={inputId} className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">
           {label}
         </label>
       )}
-      <input className={`${inputBase} ${error ? 'border-red-400 dark:border-red-500' : ''} ${className}`} {...props} />
-      {error && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{error}</p>}
+      <input id={inputId} className={`${inputBase} ${error ? 'border-red-400 dark:border-red-500' : ''} ${className}`} {...props} />
+      {error && <p className="mt-1 text-xs text-red-600 dark:text-red-400" role="alert">{error}</p>}
     </div>
   );
 }
@@ -32,18 +35,20 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   error?: string;
 }
 
-export function Select({ label, error, className = '', children, ...props }: SelectProps) {
+export function Select({ label, error, className = '', children, id, ...props }: SelectProps) {
+  const autoId = useId();
+  const selectId = id || autoId;
   return (
     <div>
       {label && (
-        <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">
+        <label htmlFor={selectId} className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">
           {label}
         </label>
       )}
-      <select className={`${inputBase} ${error ? 'border-red-400' : ''} ${className}`} {...props}>
+      <select id={selectId} className={`${inputBase} ${error ? 'border-red-400' : ''} ${className}`} {...props}>
         {children}
       </select>
-      {error && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-600 dark:text-red-400" role="alert">{error}</p>}
     </div>
   );
 }

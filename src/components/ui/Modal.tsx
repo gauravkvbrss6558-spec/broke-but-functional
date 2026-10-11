@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useId } from 'react';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -19,6 +19,7 @@ const sizeClasses = {
 };
 
 export function Modal({ open, onClose, title, children, size = 'md', footer }: ModalProps) {
+  const titleId = useId();
   useEffect(() => {
     if (!open) return;
     const handleEsc = (e: KeyboardEvent) => {
@@ -39,6 +40,7 @@ export function Modal({ open, onClose, title, children, size = 'md', footer }: M
       className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in"
       role="dialog"
       aria-modal="true"
+      aria-labelledby={title ? titleId : undefined}
     >
       <div
         className="absolute inset-0 bg-navy-950/60 backdrop-blur-sm"
@@ -49,7 +51,7 @@ export function Modal({ open, onClose, title, children, size = 'md', footer }: M
       >
         {title && (
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-navy-700">
-            <h2 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+            <h2 id={titleId} className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
               {title}
             </h2>
             <button

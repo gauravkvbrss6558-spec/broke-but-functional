@@ -12,7 +12,6 @@ import {
   Calendar,
 } from 'lucide-react';
 import type { FinanceState, FinanceMetrics, RiskLevel } from '@/types';
-import { computeMetrics } from '@/lib/calculations';
 import { formatCurrency } from '@/lib/format';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
